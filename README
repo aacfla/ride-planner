@@ -1,0 +1,3 @@
+`mvn package` to compile to a jar.
+
+(We may setup a continuous integration at some point)
