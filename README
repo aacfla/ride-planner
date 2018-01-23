@@ -1,7 +1,0 @@
-`mvn package` to compile to a jar.
-
-To set up credientials on a local machine, add file to:
-  -- ~/.aws/config on Linux, macOS, or Unix
-  -- C:\Users\[USERNAME]\.aws\config on Windows
-
-(We may setup a continuous integration at some point)
