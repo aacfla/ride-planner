@@ -18,5 +18,5 @@
       7. Open `test/java/Playground.java`. Run > Run, select Playground. The project should compile and the Playground file should be executed
 
 4. To set up credentials on a local machine, add file to:
-   * `~/.aws/config` on Linux, macOS, or Unix
-   * `C:\Users\[USERNAME]\.aws\config` on Windows
+   * `~/.aws/credentials` on Linux, macOS, or Unix
+   * `C:\Users\[USERNAME]\.aws\credentials` on Windows
