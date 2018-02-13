@@ -39,7 +39,7 @@ public class RidesRequestHandler implements RequestHandler<ClientRequest, String
      */
     private int addInfo (ClientRequest request)
     {
-        ridesDao.insert(request);
+//        ridesDao.insert();
         return 0;
     }
 
@@ -48,7 +48,7 @@ public class RidesRequestHandler implements RequestHandler<ClientRequest, String
      */
     private int deleteInfo (ClientRequest request)
     {
-        ridesDao.delete(request);
+//        ridesDao.delete();
         return 0;
     }
 
@@ -57,7 +57,7 @@ public class RidesRequestHandler implements RequestHandler<ClientRequest, String
      */
     private int editInfo (ClientRequest request)
     {
-        ridesDao.update(request);
+//        ridesDao.update();
         return 0;
     }
 
@@ -74,7 +74,7 @@ public class RidesRequestHandler implements RequestHandler<ClientRequest, String
      * get info about a user
      */
     private int retrieveInfo (ClientRequest request) {
-        ridesDao.read(request);
+//        ridesDao.read();
         return 0;
     }
 
