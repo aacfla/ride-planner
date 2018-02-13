@@ -26,23 +26,23 @@ public class RidesDao {
     }
 
     // Todo: Implement insert, update, read, readAll, delete
-    public void insert(ClientRequest request, String email, String name, int year, String phoneNumber, String church, boolean attendance)
+    public void insert(String email, String name, int year, String phoneNumber, String church, boolean attendance)
     {
     }
 
-    public void update(ClientRequest request, String email)
+    public void update(String email)
     {
     }
 
-    public void read(ClientRequest request, String email)
+    public void read(String email)
     {
     }
 
-    public void readAll(ClientRequest request)
+    public void readAll()
     {
     }
 
-    public void delete(ClientRequest request, String email)
+    public void delete(String email)
     {
     }
 
