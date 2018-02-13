@@ -12,19 +12,19 @@ public class RidesRequestHandler implements RequestHandler<ClientRequest, String
     public String handleRequest(ClientRequest request, Context context) {
 
         switch(request.getRequestType()) {
-            case ADD:
+            case ADD_RIDE_REQUEST:
                 addInfo(request);
                 break;
-            case DELETE:
+            case DELETE_RIDE_REQUEST:
                 deleteInfo(request);
                 break;
-            case EDIT:
+            case EDIT_RIDE_REQUEST:
                 editInfo(request);
                 break;
-            case CANCEL:
+            case CANCEL_RIDE_REQUEST:
                 cancelInfo(request);
                 break;
-            case RETRIEVE:
+            case RETRIEVE_RIDE_REQUEST:
                 retrieveInfo(request);
                 break;
             default:
@@ -34,30 +34,45 @@ public class RidesRequestHandler implements RequestHandler<ClientRequest, String
         return "";
     }
 
+    /*
+     * add user info and request a ride
+     */
     private int addInfo (ClientRequest request)
     {
         ridesDao.insert(request);
         return 0;
     }
 
+    /*
+     * delete user info
+     */
     private int deleteInfo (ClientRequest request)
     {
         ridesDao.delete(request);
         return 0;
     }
 
+    /*
+     * edit user's ride request
+     */
     private int editInfo (ClientRequest request)
     {
         ridesDao.update(request);
         return 0;
     }
 
+    /*
+     * cancel a ride
+     */
     private int cancelInfo (ClientRequest request)
     {
         //cancel something
         return 0;
     }
 
+    /*
+     * get info about a user
+     */
     private int retrieveInfo (ClientRequest request) {
         ridesDao.read(request);
         return 0;

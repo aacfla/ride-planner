@@ -2,11 +2,11 @@ package models;
 
 public class ClientRequest {
     public enum requestType {
-        ADD,
-        DELETE,
-        EDIT,
-        CANCEL,
-        RETRIEVE;
+        ADD_RIDE_REQUEST,
+        DELETE_RIDE_REQUEST,
+        EDIT_RIDE_REQUEST,
+        CANCEL_RIDE_REQUEST,
+        RETRIEVE_RIDE_REQUEST;
     }
 
     private requestType type;
@@ -21,7 +21,10 @@ public class ClientRequest {
     private boolean canAttend;
     private long timestamp;
 
+    public requestType setRequestType() { return type; }
+
     public requestType getRequestType() { return type; }
+
 
     public void setEmail(String email) { this.email = email; }
     public String getEmail() { return email; }
