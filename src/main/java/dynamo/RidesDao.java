@@ -28,16 +28,17 @@ public class RidesDao {
     
     // Needs to deal with the credentials...
     public RidesDao() {
-    	/*
+    	
         dbClient = AmazonDynamoDBClientBuilder.standard()
                         .withRegion(Regions.US_WEST_1)
                         .build();
         dynamoDB = new DynamoDB(dbClient);     
-        */
+        /*Ryan's Region
         dbClient = AmazonDynamoDBClientBuilder.standard()
                 .withRegion(Regions.US_EAST_2)
                 .build();
         dynamoDB = new DynamoDB(dbClient);   
+        */
     }
 
     
@@ -46,11 +47,16 @@ public class RidesDao {
     
     // Create Table 
     public void createTable() {
-    	
+        dbClient = AmazonDynamoDBClientBuilder.standard()
+                .withRegion(Regions.US_WEST_1)
+                .build();
+dynamoDB = new DynamoDB(dbClient);   
+    	/*
         dbClient = AmazonDynamoDBClientBuilder.standard()   // Client
                 .withRegion(Regions.US_EAST_2)
                 .build();
         dynamoDB = new DynamoDB(dbClient);   
+        */
         String tableName = "RideTable2"; //Name for Table
 
         try {
