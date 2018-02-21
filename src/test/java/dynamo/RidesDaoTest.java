@@ -18,21 +18,27 @@ public class RidesDaoTest {
 	private DynamoDB dynamoDB;
 	public String tableName = "RideTableTest";
 
+	public class RidesDao {
+
+		// Needs to deal with the credentials...
+		public RidesDao() {
+
+			dbClient = AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_WEST_1).build();
+			dynamoDB = new DynamoDB(dbClient);
+
+		}
+
+	}
+	
 	public void createTable() {
-		dbClient = AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_WEST_1).build();
-		dynamoDB = new DynamoDB(dbClient);
-
-		String tableName = "RideTableTest"; // Name for Table
-
 		try {
 			System.out.println("Attempting to create table; please wait...");
 			Table table = dynamoDB.createTable(tableName, Arrays.asList(new KeySchemaElement("Email", KeyType.HASH), // Partition
-																														// key
-					new KeySchemaElement("Name", KeyType.RANGE)), // Sort key
+				new KeySchemaElement("Name", KeyType.RANGE)), // Sort key
 					Arrays.asList(new AttributeDefinition("Email", ScalarAttributeType.S),
-							new AttributeDefinition("Name", ScalarAttributeType.S)),
-					new ProvisionedThroughput(10L, 10L));
-			table.waitForActive();
+							      new AttributeDefinition("Name", ScalarAttributeType.S)),
+					              new ProvisionedThroughput(10L, 10L));
+								table.waitForActive();
 			System.out.println("Success.  Table status: " + table.getDescription().getTableStatus());
 
 		} catch (Exception e) {
@@ -51,8 +57,9 @@ public class RidesDaoTest {
 			System.out.println("Waiting for " + tableName + " to be deleted...this may take a while...");
 
 			table.waitForDelete();
+			System.out.println("Success! Table Deleted");
 		} catch (Exception e) {
-			System.err.println("DeleteTable request failed for " + tableName);
+			System.err.println("Delete Table request failed for " + tableName);
 			System.err.println(e.getMessage());
 		}
 	}
