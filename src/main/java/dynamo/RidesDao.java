@@ -29,11 +29,14 @@ public class RidesDao {
 
 	// Needs to deal with the credentials...
 	public RidesDao() {
-		
+
 		dbClient = AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_WEST_1).build();
 		dynamoDB = new DynamoDB(dbClient);
-		
+
 	}
+
+
+
 	// Todo: Implement insert, update, read, readAll, delete
 	public void insert(String email, String name, int year, String phoneNumber, String church, boolean attendance) {
 
