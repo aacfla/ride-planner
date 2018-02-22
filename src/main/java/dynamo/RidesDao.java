@@ -1,7 +1,5 @@
 package dynamo;
 
-
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,9 +32,7 @@ public class RidesDao {
 		dynamoDB = new DynamoDB(dbClient);
 
 	}
-
-
-
+	
 	// Todo: Implement insert, update, read, readAll, delete
 	public void insert(String email, String name, int year, String phoneNumber, String church, boolean attendance) {
 
@@ -85,7 +81,6 @@ public class RidesDao {
 			System.err.println(e.getMessage());
 		}
 	}
-
 
 
 
