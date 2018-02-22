@@ -18,17 +18,10 @@ public class RidesDaoTest {
 	private DynamoDB dynamoDB;
 	public String tableName = "RideTableTest";
 
-	public class RidesDao {
-
-		// Needs to deal with the credentials...
-		public RidesDao() {
-
-			dbClient = AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_WEST_1).build();
-			dynamoDB = new DynamoDB(dbClient);
-
-		}
-
-	}
+    public RidesDaoTest() {
+        dbClient = AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_WEST_1).build();
+        dynamoDB = new DynamoDB(dbClient);
+    }
 	
 	public void createTable() {
 		try {
