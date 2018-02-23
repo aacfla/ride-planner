@@ -35,7 +35,7 @@ public class RidesDao {
 
 
 
-	// Todo: Implement insert, update, read, readAll, delete
+	// inserts a new person into the table with an email & a name
 	public void insert(String email, String name, int year, String phoneNumber, String church, boolean attendance) {
 
 		Table table = dynamoDB.getTable("RideTable");
@@ -60,12 +60,12 @@ public class RidesDao {
 			System.out.println("PutItem succeeded:\n" + outcome.getPutItemResult());
 
 		} catch (Exception e) {
-			System.err.println("Unable to add item: " + email + " " + name);
+			System.err.println("Unable to add " + name + " with email: " + email);
 			System.err.println(e.getMessage());
 		}
 	}
 
-	
+	//updates table based on email & primary key
 	public void update(String newEmail, String name, String oldEmail) {
 		Table table = dynamoDB.getTable("RideTable");
 
@@ -79,7 +79,7 @@ public class RidesDao {
 			System.out.println("UpdateItem succeeded:\n" + outcome.getItem().toJSONPretty());
 
 		} catch (Exception e) {
-			System.err.println("Unable to update item: " + oldEmail + " with the new email: " + newEmail);
+			System.err.println("Unable to update " + name + "'s email: "  + oldEmail + " with the new email: " + newEmail);
 			System.err.println(e.getMessage());
 		}
 	}
