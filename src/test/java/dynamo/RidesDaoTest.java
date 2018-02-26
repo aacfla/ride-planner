@@ -14,47 +14,52 @@ import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
 import com.amazonaws.services.dynamodbv2.model.ScalarAttributeType;
 
 public class RidesDaoTest {
-	private AmazonDynamoDB dbClient;
-	private DynamoDB dynamoDB;
-	public String tableName = "RideTableTest";
+
+    private DynamoDB dynamoDB;
+    public String tableName = "RideTableTest";
 
     public RidesDaoTest() {
-        dbClient = AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_WEST_1).build();
+        AmazonDynamoDB dbClient = AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_WEST_1).build();
         dynamoDB = new DynamoDB(dbClient);
     }
-	
-	public void createTable() {
-		try {
-			System.out.println("Attempting to create table; please wait...");
-			Table table = dynamoDB.createTable(tableName, Arrays.asList(new KeySchemaElement("Email", KeyType.HASH), // Partition
-				new KeySchemaElement("Name", KeyType.RANGE)), // Sort key
-					Arrays.asList(new AttributeDefinition("Email", ScalarAttributeType.S),
-							      new AttributeDefinition("Name", ScalarAttributeType.S)),
-					              new ProvisionedThroughput(10L, 10L));
-								table.waitForActive();
-			System.out.println("Success.  Table status: " + table.getDescription().getTableStatus());
+    
+    public void createTable() {
+        try {
+            System.out.println("Attempting to create table; please wait...");
+            Table table = dynamoDB.createTable(
+                    tableName,
+                    Arrays.asList(new KeySchemaElement("Email", KeyType.HASH), // Partition
+                                  new KeySchemaElement("Name", KeyType.RANGE)
+                    ), // Sort key
+                    Arrays.asList(new AttributeDefinition("Email", ScalarAttributeType.S),
+                                  new AttributeDefinition("Name", ScalarAttributeType.S)
+                    ),
+                    new ProvisionedThroughput(10L, 10L)
+            );
+            table.waitForActive();
+            System.out.println("Success.  Table status: " + table.getDescription().getTableStatus());
 
-		} catch (Exception e) {
-			System.err.println("Unable to create table: ");
-			System.err.println(e.getMessage());
-		}
-	}
+        } catch (Exception e) {
+            System.err.println("Unable to create table: ");
+            System.err.println(e.getMessage());
+        }
+    }
 
-	// Delete Table
-	public void deleteTable() {
-		Table table = dynamoDB.getTable(tableName);
-		try {
-			System.out.println("Issuing DeleteTable request for " + tableName);
-			table.delete();
+    // Delete Table
+    public void deleteTable() {
+        Table table = dynamoDB.getTable(tableName);
+        try {
+            System.out.println("Issuing DeleteTable request for " + tableName);
+            table.delete();
 
-			System.out.println("Waiting for " + tableName + " to be deleted...this may take a while...");
+            System.out.println("Waiting for " + tableName + " to be deleted...this may take a while...");
 
-			table.waitForDelete();
-			System.out.println("Success! Table Deleted");
-		} catch (Exception e) {
-			System.err.println("Delete Table request failed for " + tableName);
-			System.err.println(e.getMessage());
-		}
-	}
+            table.waitForDelete();
+            System.out.println("Success! Table Deleted");
+        } catch (Exception e) {
+            System.err.println("Delete Table request failed for " + tableName);
+            System.err.println(e.getMessage());
+        }
+    }
 
 }

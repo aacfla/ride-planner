@@ -21,8 +21,7 @@ public class ClientRequest {
     private boolean canAttend;
     private long timestamp;
 
-    public requestType setRequestType() { return type; }
-
+    public void setRequestType(requestType type) { this.type = type; }
     public requestType getRequestType() { return type; }
 
 

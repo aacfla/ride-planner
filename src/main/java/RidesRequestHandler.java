@@ -3,7 +3,9 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import dynamo.RidesDao;
 import models.ClientRequest;
 
-
+/**
+ * Handles queries to access the rides database
+ */
 public class RidesRequestHandler implements RequestHandler<ClientRequest, String> {
 
     private RidesDao ridesDao = new RidesDao();
@@ -34,47 +36,42 @@ public class RidesRequestHandler implements RequestHandler<ClientRequest, String
         return "";
     }
 
-    /*
-     * add user info and request a ride
+    /**
+     * Add user info and request a ride
      */
     private int addInfo (ClientRequest request)
     {
-//        ridesDao.insert();
         return 0;
     }
 
-    /*
-     * delete user info
+    /**
+     * Delete user row based on primary key
      */
     private int deleteInfo (ClientRequest request)
     {
-//        ridesDao.delete();
         return 0;
     }
 
-    /*
-     * edit user's ride request
+    /**
+     * Edit user's ride request
      */
     private int editInfo (ClientRequest request)
     {
-//        ridesDao.update();
         return 0;
     }
 
-    /*
-     * cancel a ride
+    /**
+     * Cancel a ride for the week, but keep user info
      */
     private int cancelInfo (ClientRequest request)
     {
-        //cancel something
         return 0;
     }
 
-    /*
-     * get info about a user
+    /**
+     * Get info about a user
      */
     private int retrieveInfo (ClientRequest request) {
-//        ridesDao.read();
         return 0;
     }
 
