@@ -20,7 +20,7 @@ import com.amazonaws.services.dynamodbv2.model.ReturnValue;
  * Data accessor object for rides DynamoDB
  */
 public class RidesDao {
-
+	public String tableName = "RideTable";
     private AmazonDynamoDB dbClient;
     private DynamoDB dynamoDB;
 
@@ -41,11 +41,8 @@ public class RidesDao {
 		infoMap.put("Church", church);
 		infoMap.put("year", year);
 		infoMap.put("Phone Number", phoneNumber);
-		if (attendance) { // attends or not
-			infoMap.put("attendance", "yes");
-		} else {
-			infoMap.put("attendance", "no");
-		}
+		infoMap.put("attendance", attendance);
+
 
 		try {
 			System.out.println("Adding a new item...");
@@ -61,7 +58,7 @@ public class RidesDao {
 	}
 
 	//updates table based on email & primary key
-	public void update(String newEmail, String name, String oldEmail) {
+	public void update(String newEmail, String oldEmail) {// use email & rideInfo object as parameter
 		Table table = dynamoDB.getTable("RideTable");
 
 		UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey("Email", oldEmail)
