@@ -35,52 +35,5 @@ public class RidesDao {
 
 
 
-	// inserts a new person into the table with an email & a name
-	public void insert(String email, String name, int year, String phoneNumber, String church, boolean attendance) {
 
-		Table table = dynamoDB.getTable("RideTable");
-
-		final Map<String, Object> infoMap = new HashMap<String, Object>();
-		infoMap.put("Email", email);
-		infoMap.put("Name", name);
-		infoMap.put("Church", church);
-		infoMap.put("year", year);
-		infoMap.put("Phone Number", phoneNumber);
-		if (attendance) { // attends or not
-			infoMap.put("attendance", "yes");
-		} else {
-			infoMap.put("attendance", "no");
-		}
-
-		try {
-			System.out.println("Adding a new item...");
-			PutItemOutcome outcome = table
-					.putItem(new Item().withPrimaryKey("Email", email, "Name", name).withMap("info", infoMap));
-
-			System.out.println("PutItem succeeded:\n" + outcome.getPutItemResult());
-
-		} catch (Exception e) {
-			System.err.println("Unable to add " + name + " with email: " + email);
-			System.err.println(e.getMessage());
-		}
-	}
-
-	//updates table based on email & primary key
-	public void update(String newEmail, String name, String oldEmail) {
-		Table table = dynamoDB.getTable("RideTable");
-
-		UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey("Email", oldEmail, "Name", name)
-				.withUpdateExpression("set info.Email = :e").withValueMap(new ValueMap().withString(":e", newEmail))
-				.withReturnValues(ReturnValue.UPDATED_NEW);
-
-		try {
-			System.out.println("Updating the item...");
-			UpdateItemOutcome outcome = table.updateItem(updateItemSpec);
-			System.out.println("UpdateItem succeeded:\n" + outcome.getItem().toJSONPretty());
-
-		} catch (Exception e) {
-			System.err.println("Unable to update " + name + "'s email: "  + oldEmail + " with the new email: " + newEmail);
-			System.err.println(e.getMessage());
-		}
-	}
 }
