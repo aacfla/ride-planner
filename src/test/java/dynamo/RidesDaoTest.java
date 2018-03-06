@@ -26,17 +26,10 @@ public class RidesDaoTest {
     public void createTable() {
         try {
             System.out.println("Attempting to create table; please wait...");
-            Table table = dynamoDB.createTable(
-                    tableName,
-                    Arrays.asList(new KeySchemaElement("Email", KeyType.HASH), // Partition
-                                  new KeySchemaElement("Name", KeyType.RANGE)
-                    ), // Sort key
-                    Arrays.asList(new AttributeDefinition("Email", ScalarAttributeType.S),
-                                  new AttributeDefinition("Name", ScalarAttributeType.S)
-                    ),
-                    new ProvisionedThroughput(10L, 10L)
-            );
-            table.waitForActive();
+            Table table = dynamoDB.createTable(tableName, Arrays.asList(new KeySchemaElement("Email", KeyType.HASH)), // Partition
+                    Arrays.asList(new AttributeDefinition("Email", ScalarAttributeType.S)),
+                                  new ProvisionedThroughput(10L, 10L));
+                                table.waitForActive();
             System.out.println("Success.  Table status: " + table.getDescription().getTableStatus());
 
         } catch (Exception e) {
