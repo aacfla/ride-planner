@@ -11,19 +11,25 @@ import com.amazonaws.services.dynamodbv2.document.DynamoDB;
  */
 public class RidesDao {
 
-	private AmazonDynamoDB dbClient;
-	private DynamoDB dynamoDB;
+    private AmazonDynamoDB dbClient;
+    private DynamoDB dynamoDB;
 
+    // Needs to deal with the credentials...
+    public RidesDao() {
+        dbClient = AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_WEST_1).build();
+        dynamoDB = new DynamoDB(dbClient);
+    }
 
-	// Needs to deal with the credentials...
-	public RidesDao() {
+    public void insert(String email, String name, int year, String phoneNumber, String church, boolean attendance) {}
 
-		dbClient = AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_WEST_1).build();
-		dynamoDB = new DynamoDB(dbClient);
+    // Note that every parameter is optional except for email
+    public void update(String email,
+                       String name, Integer year, String phoneNumber, String church, Boolean attendance) {}
 
-	}
+    public void read(String email) {}
 
+    public void readAll() {}
 
-
+    public void delete(String email) {}
 
 }
