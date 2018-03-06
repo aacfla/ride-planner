@@ -1,6 +1,7 @@
 package models;
 
 public class ClientRequest {
+
     public enum requestType {
         ADD_RIDE_REQUEST,
         DELETE_RIDE_REQUEST,
@@ -23,7 +24,6 @@ public class ClientRequest {
 
     public void setRequestType(requestType type) { this.type = type; }
     public requestType getRequestType() { return type; }
-
 
     public void setEmail(String email) { this.email = email; }
     public String getEmail() { return email; }

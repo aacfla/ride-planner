@@ -26,7 +26,9 @@ public class RidesDao {
     public void update(String email,
                        String name, Integer year, String phoneNumber, String church, Boolean attendance) {}
 
-    public void read(String email) {}
+    public void read(String email) {
+
+    }
 
     public void readAll() {}
 
