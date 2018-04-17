@@ -8,19 +8,25 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Item;
+import com.amazonaws.services.dynamodbv2.document.PrimaryKey;
 import com.amazonaws.services.dynamodbv2.document.PutItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.document.UpdateItemOutcome;
+import com.amazonaws.services.dynamodbv2.document.spec.DeleteItemSpec;
+import com.amazonaws.services.dynamodbv2.document.spec.GetItemSpec;
 import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
 import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ReturnValue;
+import com.amazonaws.services.dynamodbv2.model.ScanRequest;
+import com.amazonaws.services.dynamodbv2.model.ScanResult;
 
 
 /**
  * Data accessor object for rides DynamoDB
  */
 public class RidesDao {
-	public String tableName = "RideTable";
+	public String tableName = "RidesTable";
     private AmazonDynamoDB dbClient;
     private DynamoDB dynamoDB;
 
@@ -107,10 +113,57 @@ public class RidesDao {
 	}
 	
 
-    public void read(String email) {}
+    public void read(String email) {
+		dbClient = AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_WEST_1).build();
+		dynamoDB = new DynamoDB(dbClient);
 
-    public void readAll() {}
+		Table table = dynamoDB.getTable("RidesTable");
+		GetItemSpec spec = new GetItemSpec().withPrimaryKey("Email", email);
 
-    public void delete(String email) {}
+		try {
+			System.out.println("Attempting to read the item...");
+			Item outcome = table.getItem(spec);
+			System.out.println("Read Item success!: " + outcome);
+
+		} catch (Exception e) {
+			System.err.println("Unable to read item: " + email);
+			System.err.println(e.getMessage());
+		}
+    }
+
+    public void readAll() {
+		dbClient = AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_WEST_1).build();
+		dynamoDB = new DynamoDB(dbClient);
+
+		ScanRequest scanRequest = new ScanRequest().withTableName("RidesTable");
+
+		ScanResult result = dbClient.scan(scanRequest);
+		for (Map<String, AttributeValue> item : result.getItems()) {
+			System.out.print(item);
+		}
+    }
+
+    
+    
+    public void delete(String email) {
+		dbClient = AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_WEST_1).build();
+		dynamoDB = new DynamoDB(dbClient);
+
+		Table table = dynamoDB.getTable("RidesTable");
+
+		DeleteItemSpec deleteItemSpec = new DeleteItemSpec()
+				.withPrimaryKey(new PrimaryKey("Email", email));
+
+		// Conditional delete (we expect this to fail)
+
+		try {
+			System.out.println("Attempting a conditional delete...");
+			table.deleteItem(deleteItemSpec);
+			System.out.println("DeleteItem succeeded");
+		} catch (Exception e) {
+			System.err.println("Unable to delete item: " + email);
+			System.err.println(e.getMessage());
+		}
+    }
 
 }

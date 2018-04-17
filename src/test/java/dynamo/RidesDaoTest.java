@@ -69,11 +69,6 @@ public class RidesDaoTest {
             System.err.println(e.getMessage());
         }
     }
-    
-
-
-    
-    
 
     
 
