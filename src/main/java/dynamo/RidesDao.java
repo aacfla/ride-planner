@@ -143,8 +143,7 @@ public class RidesDao {
 		}
     }
 
-    
-    
+   
     public void delete(String email) {
 		dbClient = AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_WEST_1).build();
 		dynamoDB = new DynamoDB(dbClient);
