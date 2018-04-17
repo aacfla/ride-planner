@@ -32,14 +32,16 @@ public class RidesDao {
 
 	// inserts a new person into the table with an email & a name
 	public void insert(String email, String name, int year, String phoneNumber, String church, boolean attendance) {
-
-		Table table = dynamoDB.getTable("RideTableTest");
+		
+		dbClient = AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_WEST_1).build();
+        dynamoDB = new DynamoDB(dbClient);
+        
+		Table table = dynamoDB.getTable("RidesTable");
 
 		final Map<String, Object> infoMap = new HashMap<String, Object>();
-		infoMap.put("Email", email);
-		infoMap.put("Name", name);
+		infoMap.put("m_Name", name);
 		infoMap.put("Church", church);
-		infoMap.put("Year", year);
+		infoMap.put("m_Year", year);
 		infoMap.put("PhoneNumber", phoneNumber);
 		infoMap.put("Attendance", attendance);
 		infoMap.put("Driver", false);
@@ -59,10 +61,11 @@ public class RidesDao {
 			System.err.println(e.getMessage());
 		}
 	}
+	
 
 	//updates table based on email & primary key
 	public void update(String email,RidesInfo object) {// use email & rideInfo object as parameter
-		Table table = dynamoDB.getTable("RideTableTest");
+		Table table = dynamoDB.getTable("RidesTable");
 		//These values are default since they don't necessarily have to be filled out at insertion
 		Boolean TempDriver = false;
 		Integer TempSeats = 0;
@@ -81,12 +84,12 @@ public class RidesDao {
 		
 
 		UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey("Email", email)
-				.withUpdateExpression("set info.Email = :email, set info.Name = :name, set info.Church = :church,"
-				+ "set info.Year = :year, set info.PhoneNumber = :phoneNumber, set info.Attendance = :attendance,"
-				+ "set info.Driver = :driver, set info.NumSeats = :numSeats, set info.Notes = :notes")
+				.withUpdateExpression("set info.Email = :email, info.m_Name = :m_name, info.Church = :church,"
+				+ "info.m_Year = :m_year, info.PhoneNumber = :phoneNumber, info.Attendance = :attendance,"
+				+ "info.Driver = :driver, info.NumSeats = :numSeats, info.Notes = :notes")
 				.withValueMap(new ValueMap().withString(":email", object.getEmail())
-				.withString(":name", object.getName()).withString(":church", object.getChurch())
-				.withInt(":year", object.getYear()).withString(":phoneNumber", object.getPhoneNumber())
+				.withString(":m_name", object.getName()).withString(":church", object.getChurch())
+				.withInt(":m_year", object.getYear()).withString(":phoneNumber", object.getPhoneNumber())
 				.withBoolean(":attendance", object.getCanAttend()).withBoolean(":driver", TempDriver)
 				.withInt(":numSeats", TempSeats).withString(":notes", TempNotes))
 				.withReturnValues(ReturnValue.UPDATED_NEW);

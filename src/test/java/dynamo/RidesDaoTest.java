@@ -16,17 +16,22 @@ import com.amazonaws.services.dynamodbv2.document.ItemCollection;
 import com.amazonaws.services.dynamodbv2.document.PutItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.QueryOutcome;
 import com.amazonaws.services.dynamodbv2.document.Table;
+import com.amazonaws.services.dynamodbv2.document.UpdateItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.spec.QuerySpec;
+import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
+import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 import com.amazonaws.services.dynamodbv2.model.AttributeDefinition;
 import com.amazonaws.services.dynamodbv2.model.KeySchemaElement;
 import com.amazonaws.services.dynamodbv2.model.KeyType;
 import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
+import com.amazonaws.services.dynamodbv2.model.ReturnValue;
 import com.amazonaws.services.dynamodbv2.model.ScalarAttributeType;
 
 public class RidesDaoTest {
 
+    private AmazonDynamoDB dbClient;
     private DynamoDB dynamoDB;
-    public String tableName = "RideTableTest";
+    public String tableName = "RideTable";
 
     public RidesDaoTest() {
     		AmazonDynamoDB dbClient = AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_WEST_1).build();
@@ -65,7 +70,81 @@ public class RidesDaoTest {
         }
     }
     
-    
+public void insertTest(String email, String name, int year, String phoneNumber, String church, boolean attendance) {
+		
+		dbClient = AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_WEST_1).build();
+        dynamoDB = new DynamoDB(dbClient);
+        
+		Table table = dynamoDB.getTable("RideTable");
+
+		final Map<String, Object> infoMap = new HashMap<String, Object>();
+		infoMap.put("Name", name);
+		infoMap.put("Church", church);
+		infoMap.put("Year", year);
+		infoMap.put("Email", email);
+		infoMap.put("PhoneNumber", phoneNumber);
+		infoMap.put("Attendance", attendance);
+		infoMap.put("Driver", false);
+		infoMap.put("NumSeats", 0);
+		infoMap.put("Notes", " ");
+
+
+		try {
+			System.out.println("Adding a new item...");
+			PutItemOutcome outcome = table
+					.putItem(new Item().withPrimaryKey("Email", email).withMap("info", infoMap));
+
+			System.out.println("PutItem succeeded:\n" + outcome.getPutItemResult());
+
+		} catch (Exception e) {
+			System.err.println("Unable to add " + email);
+			System.err.println(e.getMessage());
+		}
+	}
+	
+
+	//updates table based on email & primary key
+	public void updateTest(String email,RidesInfo object) {// use email & rideInfo object as parameter
+		Table table = dynamoDB.getTable("RideTable");
+		//These values are default since they don't necessarily have to be filled out at insertion
+		Boolean TempDriver = false;
+		Integer TempSeats = 0;
+		String TempNotes = "N/A";
+			
+		
+		if(object.getDriver() != null) {
+			TempDriver = object.getDriver();
+		}
+		if(object.getNumSeats() != null) {
+			TempSeats = object.getNumSeats();
+		}
+		if(object.getNotes() != null) {
+			TempNotes = object.getNotes();
+		}
+		
+
+		UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey("Email", email)
+				.withUpdateExpression("set info.Email = :email, set info.Name = :name, set info.Church = :church,"
+				+ "set info.Year = :year, set info.PhoneNumber = :phoneNumber, set info.Attendance = :attendance,"
+				+ "set info.Driver = :driver, set info.NumSeats = :numSeats, set info.Notes = :notes")
+				.withValueMap(new ValueMap().withString(":email", object.getEmail())
+				.withString(":name", object.getName()).withString(":church", object.getChurch())
+				.withInt(":year", object.getYear()).withString(":phoneNumber", object.getPhoneNumber())
+				.withBoolean(":attendance", object.getCanAttend()).withBoolean(":driver", TempDriver)
+				.withInt(":numSeats", TempSeats).withString(":notes", TempNotes))
+				.withReturnValues(ReturnValue.UPDATED_NEW);
+		
+		
+		try {
+			System.out.println("Updating the item...");
+			UpdateItemOutcome outcome = table.updateItem(updateItemSpec);
+			System.out.println("UpdateItem succeeded:\n" + outcome.getItem().toJSONPretty());
+
+		} catch (Exception e) {
+			System.err.println("Unable to update "  + email + " properly");
+			System.err.println(e.getMessage());
+		}
+	}
     
     
     
@@ -75,7 +154,7 @@ public class RidesDaoTest {
         valueMap.put(":email", email);
 		Table table = dynamoDB.getTable("RideTableTest");
 		
-		QuerySpec querySpec = new QuerySpec().withKeyConditionExpression("#yr = :yyyy")
+		QuerySpec querySpec = new QuerySpec().withKeyConditionExpression("Email = : email")
 	    .withValueMap(valueMap);
         ItemCollection<QueryOutcome> items = null;
         Iterator<Item> iterator = null;
@@ -97,6 +176,7 @@ public class RidesDaoTest {
         }
 		return "";
 	}
+	
 	public String getNameFromDynamo(String email) {
 
 		Table table = dynamoDB.getTable("RideTable");
@@ -145,11 +225,11 @@ public class RidesDaoTest {
 	
     @Test
     void testInsert() {
-    	RidesDaoTest obj = new RidesDaoTest();
-    	RidesDao object = new RidesDao();
-    	object.insert("Email", "Ryan", 2021, "7605555555", "LightHouse", false);
-    	assert(obj.getEmailFromDynamo("Email") == "Email");
+    	RidesDaoTest object = new RidesDaoTest();
+    	//object.insertTest("Email", "Ryan", 2021, "7605555555", "LightHouse", false);
+    	assert(object.getEmailFromDynamo("Email") == "Email");
 
     }
+    
 
 }
