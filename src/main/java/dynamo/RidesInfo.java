@@ -10,7 +10,7 @@ public class  RidesInfo {
 
     private String email;
     private String name;
-    private int year;
+    private String year;
     private String phoneNumber;
 
     private String church;
@@ -29,8 +29,8 @@ public class  RidesInfo {
     public void setName (String name) { this.name = name; }
 
     @DynamoDBAttribute(attributeName = "Year")
-    public int getYear() { return year; }
-    public void setYear (int year) { this.year = year; }
+    public String getYear() { return year; }
+    public void setYear (String year) { this.year = year; }
 
     @DynamoDBAttribute(attributeName = "PhoneNumber")
     public String getPhoneNumber() { return phoneNumber; }
@@ -62,7 +62,8 @@ public class  RidesInfo {
 
     @Override
     public String toString() {
-        return "Name = " + name + ", Email = " + email + ", Year = " + year + ", Phone Number = " + phoneNumber
-                + " Church = " + church + ", Attendance = " + canAttend + "\n   Notes for " + name + ": " + notes;
+
+        return "Name = " + name + " | Email = " + email + " | Year = " + year + " | Phone Number = " + phoneNumber
+                + " | Church = " + church + " | Attendance = " + canAttend + " | Notes for " + name + ": " + notes;
     }
 }
