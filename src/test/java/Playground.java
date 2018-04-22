@@ -7,8 +7,10 @@ public class Playground {
 
     public static void main(String[] args) {
         RidesDao dao = new RidesDao();
-
-        //dao.insert();
-        System.out.println("hello");
+        //Insert format:
+        //Email, Name, Year, PhoneNumber, Church, Attendance, Driver, Num of Seats, Notes
+        dao.insert("okay@gmail.com", "Jeffolas", "Freshman", "123-456-7890", "CCAC", true, true, 3, "Praise God");
+        dao.read("okay@gmail.com");
+        System.out.println("Finished");
     }
 }
