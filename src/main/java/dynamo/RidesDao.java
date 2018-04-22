@@ -28,23 +28,19 @@ import com.amazonaws.services.dynamodbv2.model.ScanResult;
 public class RidesDao {
 	public String tableName = "RidesTable";
     private AmazonDynamoDB dbClient;
-    private DynamoDB dynamoDB;
+    private Table table;
 
     // Needs to deal with the credentials...
     public RidesDao() {
-    		AmazonDynamoDB dbClient = AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_WEST_1).build();
-        dynamoDB = new DynamoDB(dbClient);
+		dbClient = AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_WEST_1).build();
+        DynamoDB dynamoDB = new DynamoDB(dbClient);
+        table = dynamoDB.getTable(tableName);
     }
 
 	// inserts a new person into the table with an email & a name
 	public void insert(String email, String name, int year, String phoneNumber, String church, boolean attendance) {
-		
-		dbClient = AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_WEST_1).build();
-        dynamoDB = new DynamoDB(dbClient);
-        
-		Table table = dynamoDB.getTable("RidesTable");
 
-		final Map<String, Object> infoMap = new HashMap<String, Object>();
+		final Map<String, Object> infoMap = new HashMap<>();
 		infoMap.put("m_Name", name);
 		infoMap.put("Church", church);
 		infoMap.put("m_Year", year);
@@ -53,7 +49,6 @@ public class RidesDao {
 		infoMap.put("Driver", false);
 		infoMap.put("NumSeats", 0);
 		infoMap.put("Notes", " ");
-
 
 		try {
 			System.out.println("Adding a new item...");
@@ -70,14 +65,13 @@ public class RidesDao {
 	
 
 	//updates table based on email & primary key
-	public void update(String email,RidesInfo object) {// use email & rideInfo object as parameter
-		Table table = dynamoDB.getTable("RidesTable");
-		//These values are default since they don't necessarily have to be filled out at insertion
+	public void update(String email, RidesInfo object) {// use email & rideInfo object as parameter
+
+		// These values are default since they don't necessarily have to be filled out at insertion
 		Boolean TempDriver = false;
 		Integer TempSeats = 0;
 		String TempNotes = "N/A";
-			
-		
+
 		if(object.getDriver() != null) {
 			TempDriver = object.getDriver();
 		}
@@ -114,10 +108,7 @@ public class RidesDao {
 	
 
     public void read(String email) {
-		dbClient = AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_WEST_1).build();
-		dynamoDB = new DynamoDB(dbClient);
 
-		Table table = dynamoDB.getTable("RidesTable");
 		GetItemSpec spec = new GetItemSpec().withPrimaryKey("Email", email);
 
 		try {
@@ -132,10 +123,8 @@ public class RidesDao {
     }
 
     public void readAll() {
-		dbClient = AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_WEST_1).build();
-		dynamoDB = new DynamoDB(dbClient);
 
-		ScanRequest scanRequest = new ScanRequest().withTableName("RidesTable");
+		ScanRequest scanRequest = new ScanRequest().withTableName(tableName);
 
 		ScanResult result = dbClient.scan(scanRequest);
 		for (Map<String, AttributeValue> item : result.getItems()) {
@@ -145,10 +134,6 @@ public class RidesDao {
 
    
     public void delete(String email) {
-		dbClient = AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_WEST_1).build();
-		dynamoDB = new DynamoDB(dbClient);
-
-		Table table = dynamoDB.getTable("RidesTable");
 
 		DeleteItemSpec deleteItemSpec = new DeleteItemSpec()
 				.withPrimaryKey(new PrimaryKey("Email", email));
