@@ -48,7 +48,7 @@ public class  RidesInfo {
     public Boolean getDriver() { return driver; }
     public void setDriver (Boolean driver) { this.driver = driver; }
 
-    @DynamoDBAttribute(attributeName = "numSeats")
+    @DynamoDBAttribute(attributeName = "NumSeats")
     public Integer getNumSeats() { return numSeats; }
     public void setNumSeats (Integer numSeats) { this.numSeats = numSeats; }
 
@@ -56,7 +56,7 @@ public class  RidesInfo {
     public String getNotes() { return notes; }
     public void setNotes (String notes) { this.notes = notes; }
 
-    @DynamoDBIgnore
+    @DynamoDBAttribute(attributeName = "Timestamp")
     public Long getTimestamp() { return timestamp; }
     public void setTimestamp (Long timeStamp) { this.timestamp = timeStamp; }
 

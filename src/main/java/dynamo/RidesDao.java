@@ -4,7 +4,6 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 
 
 /**
@@ -13,15 +12,12 @@ import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 public class RidesDao {
 
     private AmazonDynamoDB dbClient;
-    private DynamoDB dynamoDB;
     private DynamoDBMapper mapper;
-
 
 
     // Needs to deal with the credentials...
     public RidesDao() {
         dbClient = AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_WEST_1).build();
-        dynamoDB = new DynamoDB(dbClient);
         mapper = new DynamoDBMapper(dbClient);
     }
 
@@ -37,6 +33,7 @@ public class RidesDao {
         rider.setDriver(driver);
         rider.setNumSeats(numSeats);
         rider.setNotes(notes);
+        rider.setTimestamp(System.currentTimeMillis());
         mapper.save(rider);
 
         System.out.print("Rider saved: ");
