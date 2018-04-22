@@ -38,17 +38,20 @@ public class RidesDao {
         rider.setNumSeats(numSeats);
         rider.setNotes(notes);
         mapper.save(rider);
+
+        System.out.print("Rider saved: ");
+        System.out.println(email);
     }
 
     // Note that every parameter is optional except for email
-    public void update(String email,
-                       String name, String year, String phoneNumber, String church, Boolean attendance) {}
+    public void update(String email, String name, String year, String phoneNumber, String church, Boolean attendance) {}
 
-    public void read(String email) {
+    public RidesInfo read(String email) {
         RidesInfo riderRetrieved = mapper.load(RidesInfo.class, email);
-        System.out.println("Rider retrieved:");
+        System.out.print("Rider retrieved: ");
         System.out.println(riderRetrieved);
 
+        return riderRetrieved;
     }
 
     public void readAll() {}
