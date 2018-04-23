@@ -2,7 +2,6 @@ package dynamo;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIgnore;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
 @DynamoDBTable(tableName = "RidesTableTest")
@@ -64,6 +63,6 @@ public class  RidesInfo {
     public String toString() {
 
         return "Name = " + name + " | Email = " + email + " | Year = " + year + " | Phone Number = " + phoneNumber
-                + " | Church = " + church + " | Attendance = " + canAttend + " | Notes for " + name + ": " + notes;
+                + " | Church = " + church + " | Attendance = " + canAttend + " | Notes for " + name + ": " + notes + " | Timestamp = " + timestamp;
     }
 }

@@ -1,26 +1,23 @@
 package dynamo;
 
-import java.util.Arrays;
-
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Table;
-import com.amazonaws.services.dynamodbv2.model.AttributeDefinition;
-import com.amazonaws.services.dynamodbv2.model.KeySchemaElement;
-import com.amazonaws.services.dynamodbv2.model.KeyType;
-import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
-import com.amazonaws.services.dynamodbv2.model.ScalarAttributeType;
+import com.amazonaws.services.dynamodbv2.model.*;
+
+import java.util.Arrays;
 
 public class RidesDaoTest {
 
+    private AmazonDynamoDB dbClient;
     private DynamoDB dynamoDB;
-    public String tableName = "RideTableTest";
+    public String tableName = "RideTable";
 
     public RidesDaoTest() {
-        AmazonDynamoDB dbClient = AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_WEST_1).build();
-        dynamoDB = new DynamoDB(dbClient);
+    		AmazonDynamoDB dbClient = AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_WEST_1).build();
+    		dynamoDB = new DynamoDB(dbClient);
     }
     
     public void createTable() {
@@ -54,5 +51,7 @@ public class RidesDaoTest {
             System.err.println(e.getMessage());
         }
     }
+
+    
 
 }
