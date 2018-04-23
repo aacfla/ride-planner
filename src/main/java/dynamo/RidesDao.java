@@ -50,46 +50,54 @@ public class RidesDao {
     }
 
 
-    //updates table based on email & primary key
-    public void update(String email, RidesInfo object) {// use email & rideInfo object as parameter
 
-//        // These values are default since they don't necessarily have to be filled err at insertion
-//        Boolean TempDriver = false;
-//        Integer TempSeats = 0;
-//        String TempNotes = "N/A";
-//
-//        if(object.getDriver() != null) {
-//            TempDriver = object.getDriver();
-//        }
-//        if(object.getNumSeats() != null) {
-//            TempSeats = object.getNumSeats();
-//        }
-//        if(object.getNotes() != null) {
-//            TempNotes = object.getNotes();
-//        }
-//
-//
-//        UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey("Email", email)
-//                .withUpdateExpression("set info.Email = :email, info.m_Name = :m_name, info.Church = :church,"
-//                + "info.m_Year = :m_year, info.PhoneNumber = :phoneNumber, info.Attendance = :attendance,"
-//                + "info.Driver = :driver, info.NumSeats = :numSeats, info.Notes = :notes")
-//                .withValueMap(new ValueMap().withString(":email", object.getEmail())
-//                .withString(":m_name", object.getName()).withString(":church", object.getChurch())
-//                .withInt(":m_year", object.getYear()).withString(":phoneNumber", object.getPhoneNumber())
-//                .withBoolean(":attendance", object.getCanAttend()).withBoolean(":driver", TempDriver)
-//                .withInt(":numSeats", TempSeats).withString(":notes", TempNotes))
-//                .withReturnValues(ReturnValue.UPDATED_NEW);
-//
-//
-//        try {
-//            System.err.println("Updating the item...");
-//            UpdateItemOutcome errcome = table.updateItem(updateItemSpec);
-//            System.err.println("UpdateItem succeeded:\n" + errcome.getItem().toJSONPretty());
-//
-//        } catch (Exception e) {
-//            System.err.println("Unable to update "  + email + " properly");
-//            System.err.println(e.getMessage());
-//        }
+    /**
+     * Updates an existing entry in the table.
+     * @param email
+     * @param update Required fields do not need to be filled in
+     * @return 0 : no errors
+     *         1 : entry does not exist in the table
+     */
+    public int update(String email, RidesInfo update) {
+
+        RidesInfo prev = read(email);
+        if (prev == null) {
+            return 1;
+        }
+
+        // Insert missing values from previous version
+        if (update.getName() == null) {
+            update.setName(prev.getName());
+        }
+        if (update.getYear() == null) {
+            update.setYear(prev.getYear());
+        }
+        if (update.getPhoneNumber() == null) {
+            update.setPhoneNumber(prev.getPhoneNumber());
+        }
+        if (update.getChurch() == null) {
+            update.setChurch(prev.getChurch());
+        }
+        if (update.getCanAttend() == null) {
+            update.setCanAttend(prev.getCanAttend());
+        }
+        if (update.getDriver() == null) {
+            update.setDriver(prev.getDriver());
+        }
+        if (update.getNumSeats() == null) {
+            update.setNumSeats(prev.getNumSeats());
+        }
+        if (update.getNotes() == null) {
+            update.setNotes(prev.getNotes());
+        }
+        update.setTimestamp(System.currentTimeMillis());
+
+        mapper.save(update);
+        System.err.print("Rider updated: ");
+        System.err.println(email);
+
+        return 0;
+
     }
 
     public List<RidesInfo> readAll() {
