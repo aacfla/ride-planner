@@ -1,6 +1,4 @@
 import dynamo.RidesDao;
-import dynamo.RidesDaoTest;
-import dynamo.RidesInfo;
 
 /**
  * For testing random things
@@ -9,12 +7,11 @@ public class Playground {
 
     public static void main(String[] args) {
         RidesDao dao = new RidesDao();
-        //dao.insert("Jason@gmail.com", "Jason", 1923, "7605555555", "LightHouse", false);
-        
-        //dao.read("Jason@gmail.com");
-        //dao.insert("Email", "Sean",2021, "7605555555", "Lighthouse", false);
-        //dao.readAll();
-        //dao.delete("Email");
-        
+        //Insert format:
+        //Email, Name, Year, PhoneNumber, Church, Attendance, Driver, Num of Seats, Notes
+        dao.insert("okayyy@gmail.com", "Jeffolas", "Freshman", "123-456-7890", "CCAC", true, true, 3, "Praise God");
+//        dao.read("okay@gmail.com");
+        dao.readAll();
+//        dao.delete("okay@gmail.com");
     }
 }
