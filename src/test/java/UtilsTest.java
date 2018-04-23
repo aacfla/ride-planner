@@ -10,27 +10,25 @@ public class UtilsTest extends TestCase {
 
     @Test
     public void testEmailValidator() {
-    	Utils test = new Utils();
     	
     	/* testing the email validator*/
-    	assertEquals(true, test.validateEmail("blah@blah.com"));
-    	assertEquals(true, test.validateEmail("a@blah.com"));
-    	assertEquals(false, test.validateEmail("@blah.com"));
-    	assertEquals(false, test.validateEmail("blah@.com"));
-    	assertEquals(false, test.validateEmail("blah@blah."));
-    	assertEquals(false, test.validateEmail("@.blah"));
-    	assertEquals(false, test.validateEmail("blah.com"));
-    	assertEquals(false, test.validateEmail("blah@com"));
-    	assertEquals(false, test.validateEmail("blah@."));
+    	assertEquals(true, Utils.validateEmail("blah@blah.com"));
+    	assertEquals(true, Utils.validateEmail("a@blah.com"));
+    	assertEquals(false, Utils.validateEmail("@blah.com"));
+    	assertEquals(false, Utils.validateEmail("blah@.com"));
+    	assertEquals(false, Utils.validateEmail("blah@blah."));
+    	assertEquals(false, Utils.validateEmail("@.blah"));
+    	assertEquals(false, Utils.validateEmail("blah.com"));
+    	assertEquals(false, Utils.validateEmail("blah@com"));
+    	assertEquals(false, Utils.validateEmail("blah@."));
     }
     
     public void testPhoneConverter() {
-    	Utils test = new Utils();
     	
     	/*testing the phone validator*/
-    	assertEquals("1234567890", test.convertPhone("123-456-7890"));
-    	assertEquals(null, test.convertPhone("123"));
-    	assertEquals(null, test.convertPhone("123123123412"));
-    	assertEquals("1234567890", test.convertPhone("12a3dg45678sdf90"));
+    	assertEquals("1234567890", Utils.convertPhone("123-456-7890"));
+    	assertEquals(null, Utils.convertPhone("123"));
+    	assertEquals(null, Utils.convertPhone("123123123412"));
+    	assertEquals("1234567890", Utils.convertPhone("12a3dg45678sdf90"));
     }
 }
