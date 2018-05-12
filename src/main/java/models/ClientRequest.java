@@ -13,7 +13,7 @@ public class ClientRequest {
     private requestType type;
     private String email;
     private String name;
-    private int year;
+    private String year;
     private String phoneNumber;
     private String church;
     private boolean driver;
@@ -31,8 +31,8 @@ public class ClientRequest {
     public void setName(String name) { this.name = name; }
     public String getName() { return name; }
 
-    public void setYear(int year) { this.year = year; }
-    public int getYear() { return year; }
+    public void setYear(String year) { this.year = year; }
+    public String getYear() { return year; }
 
     public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
     public String getPhoneNumber() { return phoneNumber; }
