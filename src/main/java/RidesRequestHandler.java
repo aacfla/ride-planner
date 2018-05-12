@@ -58,7 +58,7 @@ public class RidesRequestHandler implements RequestHandler<ClientRequest, String
             // Request a ride
         addToRider.setCanAttend(true);
         ridesDao.update(request.getEmail(), addToRider);
-        System.err.print("Add info completed for " + request.getName() + ".");
+        System.err.print(request.getName() + "'s info has been added and a ride has been requested.");
         return 0;
     }
 
@@ -81,6 +81,7 @@ public class RidesRequestHandler implements RequestHandler<ClientRequest, String
         editRider.setEmail(request.getEmail());
         editRider.setChurch(request.getChurch());
         ridesDao.update(request.getEmail(), editRider);
+        System.err.print(request.getName() + "'s ride request has been updated.");
         return 0;
     }
 
@@ -93,6 +94,7 @@ public class RidesRequestHandler implements RequestHandler<ClientRequest, String
         cancelRide.setEmail(request.getEmail());
         cancelRide.setCanAttend(false);
         ridesDao.update(request.getEmail(), cancelRide);
+        System.err.print(request.getName() + "'s ride has been cancelled.");
         return 0;
     }
 
