@@ -1,6 +1,7 @@
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import dynamo.RidesDao;
+import dynamo.RidesInfo;
 import models.ClientRequest;
 
 /**
@@ -33,7 +34,7 @@ public class RidesRequestHandler implements RequestHandler<ClientRequest, String
                 // panic
         }
 
-        return "";
+        return "End of handleRequest";
     }
 
     /**
@@ -41,6 +42,23 @@ public class RidesRequestHandler implements RequestHandler<ClientRequest, String
      */
     private int addInfo (ClientRequest request)
     {
+        if(request.getEmail() == null) {
+            System.err.print("Needs rider's email (primary key)");
+            return 1;
+        }
+        RidesInfo addToRider = new RidesInfo();
+        addToRider.setEmail(request.getEmail());
+        addToRider.setName(request.getName());
+        addToRider.setYear(request.getYear());
+        addToRider.setPhoneNumber(request.getPhoneNumber());
+        addToRider.setChurch(request.getChurch());
+        addToRider.setDriver(request.getDriver());
+        addToRider.setNumSeats(request.getNumSeats());
+        addToRider.setNotes(request.getNotes());
+            // Request a ride
+        addToRider.setCanAttend(true);
+        ridesDao.update(request.getEmail(), addToRider);
+        System.err.print(request.getName() + "'s info has been added and a ride has been requested.");
         return 0;
     }
 
@@ -49,6 +67,8 @@ public class RidesRequestHandler implements RequestHandler<ClientRequest, String
      */
     private int deleteInfo (ClientRequest request)
     {
+        ridesDao.delete(request.getEmail());
+        System.err.print(request.getName() + " has been deleted.");
         return 0;
     }
 
@@ -57,6 +77,11 @@ public class RidesRequestHandler implements RequestHandler<ClientRequest, String
      */
     private int editInfo (ClientRequest request)
     {
+        RidesInfo editRider = new RidesInfo();
+        editRider.setEmail(request.getEmail());
+        editRider.setChurch(request.getChurch());
+        ridesDao.update(request.getEmail(), editRider);
+        System.err.print(request.getName() + "'s ride request has been updated.");
         return 0;
     }
 
@@ -65,6 +90,11 @@ public class RidesRequestHandler implements RequestHandler<ClientRequest, String
      */
     private int cancelInfo (ClientRequest request)
     {
+        RidesInfo cancelRide = new RidesInfo();
+        cancelRide.setEmail(request.getEmail());
+        cancelRide.setCanAttend(false);
+        ridesDao.update(request.getEmail(), cancelRide);
+        System.err.print(request.getName() + "'s ride has been cancelled.");
         return 0;
     }
 
@@ -72,6 +102,7 @@ public class RidesRequestHandler implements RequestHandler<ClientRequest, String
      * Get info about a user
      */
     private int retrieveInfo (ClientRequest request) {
+        ridesDao.read(request.getEmail());
         return 0;
     }
 
