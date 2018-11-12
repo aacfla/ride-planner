@@ -9,7 +9,7 @@ public class Playground {
         RidesDao dao = new RidesDao();
         //Insert format:
         //Email, Name, Year, PhoneNumber, Church, Attendance, Driver, Num of Seats, Notes
-        dao.insert("okayyy@gmail.com", "Jeffolas", "Freshman", "123-456-7890", "CCAC", true, true, 3, "Praise God");
+        dao.insert("okaysdasdfasdfasdfadfsyy@gmail.com", "Jeffolas", "Freshman", "123-456-7890", "CCAC", true, true, 3, "Praise God");
         dao.read("okaasdy@gmail.com");
         dao.readAll();
 //        dao.delete("okay@gmail.com");

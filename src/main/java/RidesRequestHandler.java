@@ -33,7 +33,7 @@ public class RidesRequestHandler implements RequestHandler<ClientRequest, String
                 // panic
         }
 
-        return "";
+        return "SOMETHING WEIRD";
     }
 
     /**
@@ -41,6 +41,10 @@ public class RidesRequestHandler implements RequestHandler<ClientRequest, String
      */
     private int addInfo (ClientRequest request)
     {
+        RidesDao dao = new RidesDao();
+        //Insert format:
+        //Email, Name, Year, PhoneNumber, Church, Attendance, Driver, Num of Seats, Notes
+        dao.insert(request.getEmail(), request.getName(), request.getYear(), request.getPhoneNumber(), request.getChurch(), request.getCanAttend(), true, request.getNumSeats(), request.getNotes());
         return 0;
     }
 

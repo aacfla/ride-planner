@@ -13,13 +13,13 @@ public class ClientRequest {
     private requestType type;
     private String email;
     private String name;
-    private int year;
+    private String year;
     private String phoneNumber;
     private String church;
+    private boolean canAttend;
     private boolean driver;
     private int numSeats;
     private String notes;
-    private boolean canAttend;
     private long timestamp;
 
     public void setRequestType(requestType type) { this.type = type; }
@@ -31,8 +31,8 @@ public class ClientRequest {
     public void setName(String name) { this.name = name; }
     public String getName() { return name; }
 
-    public void setYear(int year) { this.year = year; }
-    public int getYear() { return year; }
+    public void setYear(String year) { this.year = year; }
+    public String getYear() { return year; }
 
     public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
     public String getPhoneNumber() { return phoneNumber; }
@@ -40,7 +40,12 @@ public class ClientRequest {
     public void setChurch(String church) { this.church = church; }
     public String getChurch() { return church; }
 
-    public void setDriver(boolean driver) { this.driver = driver; }
+    public void setDriver(String driver) {
+        if (driver.equals("Yes"))
+            this.driver = true;
+        else
+            this.driver = false;
+    }
     public boolean getDriver() { return driver; }
 
     public void setNumSeats(int numSeats) { this.numSeats = numSeats; }
@@ -49,7 +54,12 @@ public class ClientRequest {
     public void setNotes(String notes) { this.notes = notes; }
     public String getNotes() { return notes; }
 
-    public void setCanAttend(boolean canAttend) { this.canAttend = canAttend; }
+    public void setCanAttend(String canAttend) {
+    if(canAttend.equals("Yes"))
+        this.canAttend = true;
+    else
+        this.canAttend = false;
+    }
     public boolean getCanAttend() { return canAttend; }
 
     public void setTimestamp(long timestamp) { this.timestamp = timestamp; }

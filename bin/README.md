@@ -20,6 +20,3 @@
 4. To set up credentials on a local machine, add file to:
    * `~/.aws/credentials` on Linux, macOS, or Unix
    * `C:\Users\[USERNAME]\.aws\credentials` on Windows
-
-5. To bundle the package the code for lambda, cd into the root directory for the repo and do
-   * `mvn package`
